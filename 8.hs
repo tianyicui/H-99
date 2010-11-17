@@ -5,7 +5,7 @@ compress x        = x
 compress' :: (Eq a) => [a] -> [a]
 compress' = foldr func []
     where
-    func x (y:xs)
-        | x == y    = (y:xs)
-        | otherwise = (x:y:xs)
-    func x []       = [x]
+    func x [] = [x]
+    func x xs
+        | x == head xs = xs
+        | otherwise    = x:xs

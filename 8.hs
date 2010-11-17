@@ -1,7 +1,6 @@
-compress (x:y:xs)
-    | x == y    = compress (y:xs)
-    | otherwise = x:(compress (y:xs))
-compress x      = x
+compress (x:y:xs) =
+    (if x == y then [] else [x]) ++ compress (y:xs)
+compress x        = x
 
 compress' :: (Eq a) => [a] -> [a]
 compress' = foldr func []

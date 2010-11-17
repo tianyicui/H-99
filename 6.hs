@@ -1,5 +1,5 @@
 isPalindrome xs = (xs == (reverse xs))
 
 isPalindrome' []  = True
-isPalindrome' [x] = True
+isPalindrome' [_] = True
 isPalindrome' xs  = (head xs) == (last xs) && (isPalindrome' $ init $ tail xs)

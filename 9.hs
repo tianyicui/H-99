@@ -14,3 +14,9 @@ pack' = foldr func []
     func x (y:xs)
         | null y || x /= (head y) = ([x]:y:xs)
         | otherwise               = ((x:y):xs)
+
+---- The use of `span`
+pack'' (x:xs) =
+    let (a,b) = span (==x) xs
+    in (x:a) : pack'' b
+pack'' [] = []

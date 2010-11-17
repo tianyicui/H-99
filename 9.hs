@@ -9,11 +9,9 @@ pack [] = []
 
 pack' :: (Eq a) => [a] -> [[a]]
 pack' = foldr func []
-    where
-    func x []     = [[x]]
-    func x (y:xs)
-        | null y || x /= (head y) = ([x]:y:xs)
-        | otherwise               = ((x:y):xs)
+    where func x []     = [[x]]
+          func x (y:xs) =
+              if x == head y then (x:y):xs else [x]:y:xs
 
 ---- The use of `span`
 pack'' (x:xs) =

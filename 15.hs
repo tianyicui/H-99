@@ -1,1 +1,5 @@
-repli xs n = concatMap (\x -> replicate n x) xs
+repli xs n = concatMap (replicate n) xs
+
+---- Pointfree style
+
+repli' = flip $ concatMap . replicate

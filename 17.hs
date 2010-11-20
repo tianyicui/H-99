@@ -1,8 +1,10 @@
 split = flip $ splitAt
 
-split' xs n
-    | xs == [] = ([], [])
-    | n  == 0  = ([], xs)
-    | otherwise =
-        let (a, b) = split' (tail xs) (n-1)
-        in ((head xs):a, b)
+split' [] _ = ([], [])
+split' xs 0 = ([], xs)
+split' (x:xs) n =
+    let (ys, zs) = split' xs (n-1)
+    in (x:ys, zs)
+
+---- I'm so stupid for not coming with this!
+split'' xs n = (take n xs, drop n xs)

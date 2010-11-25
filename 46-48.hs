@@ -11,5 +11,16 @@ impl' a b = or' (not' a) b
 
 table :: (Bool -> Bool -> Bool) -> IO ()
 table f = mapM_ putStrLn
-          [ show a ++ " " ++ show b ++ " " ++ " " ++ show (f a b)
+          [ show a ++ " " ++ show b ++ " " ++ show (f a b)
           | a <- [True, False], b <- [True, False] ]
+
+tablen :: Int -> ([Bool] -> Bool) -> IO ()
+tablen n f =
+    mapM_ putStrLn
+    [ showList $ eval xs | xs <- values n] where
+        values 0 = [[]]
+        values n = [ True  : l | l <- values $ n-1 ] ++
+                   [ False : l | l <- values $ n-1 ]
+        eval xs = xs ++ [f xs]
+        showList [x]    = show x
+        showList (x:xs) = show x ++ " " ++ showList xs

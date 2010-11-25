@@ -4,6 +4,19 @@
 
 isPrime n = and $ [ n `mod` x /= 0 | x <- takeWhile (\x -> x*x <= n) [2..] ]
 
+----
+
+-- use `all`
+isPrime' n = all (\x -> n `mod` x /= 0) $ takeWhile (\x -> x*x <= n) [2..]
+
+-- a great lazy solution
+allPrimes = filter (isPrime) [2..]
+isPrime'' n
+    | n <  2 = False
+    | n == 2 = True
+    | n >  2 = all (\x -> n `mod` x /= 0)
+             $ takeWhile (\x -> x*x <= n) allPrimes
+
 --------
 -- 32 --
 --------

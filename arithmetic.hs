@@ -67,3 +67,11 @@ primeFactorsMult n =
             then let (r, c) = howManyFactor $ x `div` m
                  in  (r, c + 1)
             else (x, 0)
+
+--------
+-- 37 --
+--------
+
+phi n = foldr step 1 $ primeFactorsMult n where
+    step (m, c) r =
+        r * (m - 1) * ( foldr (*) 1 $ replicate (c - 1) m )

@@ -1,5 +1,3 @@
-import Data.List(find)
-
 --------
 -- 31 --
 --------
@@ -32,11 +30,24 @@ totient n = length $ filter (coprime n) [1..n]
 
 totient' 1 = 1
 totient' n =
-    let m = leastPrimeFactor
+    let m = leastPrimeFactor n
         d = n `div` m
     in (*) (totient' d)
            (if d `mod` m == 0 then m else m - 1)
-    where
-    leastPrimeFactor =
-        head $ filter (\x -> n `mod` x == 0)
-             $ (takeWhile (\x -> x*x <= n) [2..] ++ [n])
+
+leastPrimeFactor n =
+    head $ filter (\x -> n `mod` x == 0)
+         $ (takeWhile (\x -> x*x <= n) [2..] ++ [n])
+
+--------
+-- 35 --
+--------
+
+primeFactors 1 = []
+primeFactors n =
+    eliminateFactor n where
+    m = leastPrimeFactor n
+    eliminateFactor x =
+        if x `mod` m == 0
+        then m:(eliminateFactor $ x `div` m)
+        else primeFactors x

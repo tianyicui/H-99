@@ -75,3 +75,9 @@ primeFactorsMult n =
 phi n = foldr step 1 $ primeFactorsMult n where
     step (m, c) r =
         r * (m - 1) * ( foldr (*) 1 $ replicate (c - 1) m )
+
+--------
+-- 39 --
+--------
+
+primeR s t = [ i | i <- [s..t], isPrime i ]

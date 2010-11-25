@@ -97,7 +97,12 @@ phi' n = product [(p - 1) * p ^ (c - 1) | (p, c) <- primeFactorsMult n]
 -- 39 --
 --------
 
-primeR s t = [ i | i <- [s..t], isPrime i ]
+primeR s t = filter isPrime [s..t]
+
+---- sieve implemented beautifully
+primes = sieve [2..] where
+    sieve (n:ns) = n : sieve [ m | m <- ns, m `mod` n /= 0 ]
+primeR' s t = takeWhile (<= t) $ dropWhile (< s) primes
 
 --------
 -- 40 --
@@ -113,8 +118,5 @@ goldbach n =
 goldbachList s t = [ goldbach x | x <- [s..t], even x ]
 
 goldbachList' s t l =
-    [ (i, j) | x <- [s..t]
-             , even x
-             , let (i, j) = goldbach x
-             , i >= l
-             , j > l ]
+    filter (\(a,b) -> a > l && b > l)
+    $ goldbachList s t

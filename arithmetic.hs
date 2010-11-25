@@ -33,13 +33,13 @@ coprime x y
     | x == 1    = True
     | otherwise = coprime (y `mod` x) x
 
-coprime' x y = (myGCD x y) == 1
+coprime' x y = myGCD x y == 1
 
 --------
 -- 34 --
 --------
 
-totient n = length $ filter (coprime n) [1..n]
+totient n = length $ filter (coprime n) [1..n-1]
 
 totient' 1 = 1
 totient' n =
@@ -50,7 +50,7 @@ totient' n =
 
 leastPrimeFactor n =
     head $ filter (\x -> n `mod` x == 0)
-         $ (takeWhile (\x -> x*x <= n) [2..] ++ [n])
+         $ (takeWhile (\x -> x*x <= n) allPrimes ++ [n])
 
 --------
 -- 35 --

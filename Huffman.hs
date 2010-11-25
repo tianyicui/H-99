@@ -1,23 +1,22 @@
 module Huffman (huffman) where
 
 import Data.List
-import Data.Ord
+import Data.Ord (comparing)
 
-data Tree = Leaf Int Char
-          | Node Int Tree Tree
+data Tree a b
+    = Leaf b a
+    | Node b (Tree a b) (Tree a b)
 
-huffman :: [(Char, Int)] -> [(Char, String)]
 huffman xs =
-    sortBy (comparing fst) $ huffman' [ Leaf i c | (c,i) <- xs ]
+    sortBy (comparing fst) $ huffman' $ sortBy cmp [ Leaf i c | (c,i) <- xs ]
 
-huffman' :: [Tree] -> [(Char, String)]
 huffman' [x] = treeToResult x
-huffman' xs  =
-    let (x:y:s) = sortBy (comparing freq) xs -- TODO: improve the time complexity here
-    in huffman' $ (merge x y) : s
+huffman' (x:y:s) = huffman' $ insertBy cmp (merge x y) s
 
 freq (Leaf i _  ) = i
 freq (Node i _ _) = i
+
+cmp = comparing freq
 
 merge x y = Node (freq x + freq y) x y
 

@@ -16,6 +16,10 @@ huffman' (x:y:s) = huffman' $ insertBy cmp (merge x y) s
 freq (Leaf i _  ) = i
 freq (Node i _ _) = i
 
+-- XXX: The type GHC automatically come with was
+--     cmp :: Tree t Integer -> Tree t Integer -> Ordering
+-- Why?
+cmp :: (Ord a) => Tree t a -> Tree t a -> Ordering
 cmp = comparing freq
 
 merge x y = Node (freq x + freq y) x y

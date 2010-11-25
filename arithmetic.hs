@@ -51,3 +51,19 @@ primeFactors n =
         if x `mod` m == 0
         then m:(eliminateFactor $ x `div` m)
         else primeFactors x
+
+--------
+-- 36 --
+--------
+
+primeFactorsMult 1 = []
+primeFactorsMult n =
+    let (r, c) = howManyFactor n
+    in (m, c) : primeFactorsMult r
+    where
+        m = leastPrimeFactor n
+        howManyFactor x =
+            if x `mod` m == 0
+            then let (r, c) = howManyFactor $ x `div` m
+                 in  (r, c + 1)
+            else (x, 0)

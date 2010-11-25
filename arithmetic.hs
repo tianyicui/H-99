@@ -81,3 +81,23 @@ phi n = foldr step 1 $ primeFactorsMult n where
 --------
 
 primeR s t = [ i | i <- [s..t], isPrime i ]
+
+--------
+-- 40 --
+--------
+
+goldbach n =
+    head [ (i, j) | i <- primeR 2 n, let j = n - i, isPrime j ]
+
+--------
+-- 41 --
+--------
+
+goldbachList s t = [ goldbach x | x <- [s..t], even x ]
+
+goldbachList' s t l =
+    [ (i, j) | x <- [s..t]
+             , even x
+             , let (i, j) = goldbach x
+             , i >= l
+             , j > l ]

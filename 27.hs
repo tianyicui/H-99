@@ -1,12 +1,11 @@
 group []     [] = [[]]
 group (n:ns) xs =
-    concat $ map f $ comb n xs
-    where
-        f (x,y) = map (x:) $ group ns y
+    [ g:gs | (g,rs) <- comb n xs
+           ,  gs    <- group ns rs ]
 
-comb 0 list   = [([], list)]
+comb 0 xs     = [([], xs)]
 comb n (x:xs) =
     (++)
-    (map (\(h,t) -> (x:h, t)) $ comb (n-1) xs)
-    (map (\(h,t) -> (h, x:t)) $ comb n xs)
+    [ (x:h,t) | (h,t) <- comb (n-1) xs ]
+    [ (h,x:t) | (h,t) <- comb  n    xs ]
 comb _ _      = []

@@ -87,7 +87,11 @@ primeFactorsMult n =
 
 phi n = foldr step 1 $ primeFactorsMult n where
     step (m, c) r =
-        r * (m - 1) * ( foldr (*) 1 $ replicate (c - 1) m )
+        r * (m - 1) * m ^ (c - 1)
+
+----
+
+phi' n = product [(p - 1) * p ^ (c - 1) | (p, c) <- primeFactorsMult n]
 
 --------
 -- 39 --

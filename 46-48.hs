@@ -1,3 +1,5 @@
+import Control.Monad (replicateM)
+
 and'  a b = a && b
 or'   a b = a || b
 equ'  a b = a == b
@@ -24,3 +26,11 @@ tablen n f =
         eval xs = xs ++ [f xs]
         showList [x]    = show x
         showList (x:xs) = show x ++ " " ++ showList xs
+
+----
+
+tablen' :: Int -> ([Bool] -> Bool) -> IO ()
+tablen' n f =
+    mapM_ putStrLn
+    [ unwords $ map show $ xs ++ [f xs]
+    | xs <- replicateM n [True, False] ]

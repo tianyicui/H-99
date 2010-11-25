@@ -1,5 +1,7 @@
 ---- didn't know how to generate random numbers in Haskell, copied from the wiki
 
+module P23 where
+
 import System.Random (randomRIO)
 import Control.Monad (replicateM)
 

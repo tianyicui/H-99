@@ -1,5 +1,8 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
+import Data.List
+import Data.Maybe
+
 data Tree a = Empty | Branch a (Tree a) (Tree a)
               deriving (Show, Eq)
 
@@ -34,7 +37,7 @@ add x t@(Branch y ta tb)
     | x < y = Branch y (add x ta) tb
     | x > y = Branch y ta (add x tb)
     | otherwise = t
-    
+
 testSymmetric = symmetric . construct
 
 symCbalTrees = (filter symmetric) . cbalTree
@@ -61,3 +64,27 @@ hbalTreeNodes' n =
 
 height Empty = 0
 height (Branch _ x y) = 1 + max (height x) (height y)
+
+----
+
+minNodes h = seq !! h
+    where seq = 0 : 1 : zipWith (\x y -> 1+x+y) seq (tail seq)
+maxNodes h = 2^h - 1 :: Int
+minHeight n = ceiling $ logBase 2 $ fromIntegral (n+1)
+maxHeight n = (fromJust $ find (\h -> minNodes h > n) [1..]) - 1
+
+hbalTreeNodes n =
+    concat [ calc n h | h <- [ minHeight n .. maxHeight n ] ]
+  where
+   calc _ 0 = [Empty]
+   calc _ 1 = [Branch 'x' Empty Empty]
+   calc n h =
+      [ Branch 'x' tl tr
+      | (hl, hr) <- [(h-1,h-2), (h-1,h-1), (h-2,h-1)]
+      , let min_nl = max (minNodes hl) (n - 1 - maxNodes hr)
+      , let max_nl = min (maxNodes hl) (n - 1 - minNodes hr)
+      , nl <- [min_nl .. max_nl]
+      , let nr = n - 1 - nl
+      , tl <- calc nl hl
+      , tr <- calc nr hr
+      ]

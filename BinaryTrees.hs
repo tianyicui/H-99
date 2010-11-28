@@ -36,3 +36,5 @@ add x t@(Branch y ta tb)
     | otherwise = t
     
 testSymmetric = symmetric . construct
+
+symCbalTrees = (filter symmetric) . cbalTree

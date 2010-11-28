@@ -1,3 +1,5 @@
+{-# LANGUAGE NoMonomorphismRestriction #-}
+
 data Tree a = Empty | Branch a (Tree a) (Tree a)
               deriving (Show, Eq)
 
@@ -24,3 +26,13 @@ mirror (Branch _ t1a t1b)
        (Branch _ t2a t2b) =
     (mirror t1a t2b) && (mirror t1b t2a)
 mirror _ _ = False
+
+construct = foldr add Empty . reverse
+
+add x Empty = Branch x Empty Empty
+add x t@(Branch y ta tb)
+    | x < y = Branch y (add x ta) tb
+    | x > y = Branch y ta (add x tb)
+    | otherwise = t
+    
+testSymmetric = symmetric . construct

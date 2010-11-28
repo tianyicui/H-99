@@ -47,3 +47,17 @@ hbalTree n =
     , ta <- hbalTree p
     , tb <- hbalTree q
     ]
+
+-- a correct but too slow version
+hbalTreeNodes' 0 = [Empty]
+hbalTreeNodes' n =
+    [ Branch 'x' ta tb 
+    | p <- [0..(n-1)]
+    , let q = n - 1 - p
+    , ta <- hbalTreeNodes' p
+    , tb <- hbalTreeNodes' q
+    , abs ((height ta) - (height tb)) <= 1
+    ]
+
+height Empty = 0
+height (Branch _ x y) = 1 + max (height x) (height y)

@@ -15,3 +15,12 @@ cbalTree n =
     , ta <- cbalTree p
     , tb <- cbalTree q
     ]
+
+symmetric (Branch _ ta tb) = mirror ta tb
+symmetric _ = False
+
+mirror Empty Empty = True
+mirror (Branch _ t1a t1b)
+       (Branch _ t2a t2b) =
+    (mirror t1a t2b) && (mirror t1b t2a)
+mirror _ _ = False

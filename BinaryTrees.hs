@@ -38,3 +38,12 @@ add x t@(Branch y ta tb)
 testSymmetric = symmetric . construct
 
 symCbalTrees = (filter symmetric) . cbalTree
+
+hbalTree 0 = [Empty]
+hbalTree 1 = [Branch 'x' Empty Empty]
+hbalTree n =
+    [ Branch 'x' ta tb
+    | (p, q) <- [(n-2,n-1), (n-1,n-1), (n-1,n-2)]
+    , ta <- hbalTree p
+    , tb <- hbalTree q
+    ]

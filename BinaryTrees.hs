@@ -30,6 +30,7 @@ mirror (Branch _ l1 r1) (Branch _ l2 r2) =
 mirror _ _ = False
 
 construct = foldr add Empty . reverse
+construct' = foldl' (flip add) Empty
 
 add x Empty = Branch x Empty Empty
 add x t@(Branch y ta tb)
@@ -39,7 +40,7 @@ add x t@(Branch y ta tb)
 
 testSymmetric = symmetric . construct
 
-symCbalTrees = (filter symmetric) . cbalTree
+symCbalTrees = filter symmetric . cbalTree
 
 hbalTree 0 = [Empty]
 hbalTree 1 = [Branch 'x' Empty Empty]

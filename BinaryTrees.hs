@@ -21,13 +21,12 @@ cbalTree n =
     , tb <- cbalTree q
     ]
 
-symmetric (Branch _ ta tb) = mirror ta tb
-symmetric _ = False
+symmetric Empty          = True
+symmetric (Branch _ l r) = mirror l r
 
 mirror Empty Empty = True
-mirror (Branch _ t1a t1b)
-       (Branch _ t2a t2b) =
-    (mirror t1a t2b) && (mirror t1b t2a)
+mirror (Branch _ l1 r1) (Branch _ l2 r2) =
+    mirror l1 r2 && mirror l2 r1
 mirror _ _ = False
 
 construct = foldr add Empty . reverse

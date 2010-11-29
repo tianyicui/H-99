@@ -1,3 +1,5 @@
+{-# LANGUAGE NoMonomorphismRestriction #-}
+
 module Huffman (huffman) where
 
 import Data.List
@@ -16,10 +18,10 @@ huffman' (x:y:s) = huffman' $ insertBy cmp (merge x y) s
 freq (Leaf i _  ) = i
 freq (Node i _ _) = i
 
--- XXX: The type GHC automatically come with was
+-- Note: if NoMonomorphismRestriction is off, GHC will come with the type
 --     cmp :: Tree t Integer -> Tree t Integer -> Ordering
--- Why?
-cmp :: (Ord a) => Tree t a -> Tree t a -> Ordering
+-- while it should be
+--     cmp :: (Ord t1) => Tree t t1 -> Tree t t1 -> Ordering
 cmp = comparing freq
 
 merge x y = Node (freq x + freq y) x y

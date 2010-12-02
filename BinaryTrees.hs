@@ -88,3 +88,7 @@ hbalTreeNodes n =
       , tl <- calc nl hl
       , tr <- calc nr hr
       ]
+
+countLeaves Empty                  = 0
+countLeaves (Branch _ Empty Empty) = 1
+countLeaves (Branch _ l     r    ) = countLeaves l + countLeaves r

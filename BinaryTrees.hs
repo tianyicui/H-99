@@ -103,4 +103,4 @@ internals (Branch x left  right) = x : (internals left ++ internals right)
 
 atLevel Empty                 _ = []
 atLevel (Branch a left right) 1 = [a]
-atLevel (Branch _ left right) n = atLevel left (n-1) ++ atLevel right (n-1)
+atLevel (Branch _ left right) n = left `atLevel` (n-1) ++ right `atLevel` (n-1)

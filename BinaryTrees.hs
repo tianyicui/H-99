@@ -100,3 +100,7 @@ leaves (Branch _ left  right) = leaves left ++ leaves right
 internals Empty = []
 internals (Branch _ Empty Empty) = []
 internals (Branch x left  right) = x : (internals left ++ internals right)
+
+atLevel Empty                 _ = []
+atLevel (Branch a left right) 1 = [a]
+atLevel (Branch _ left right) n = atLevel left (n-1) ++ atLevel right (n-1)

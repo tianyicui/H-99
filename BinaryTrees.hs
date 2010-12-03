@@ -144,4 +144,11 @@ treeZipWith f (Branch x1 l1 r1) (Branch x2 l2 r2) =
 treeZipWith3 f t1 t2 t3 =
     treeZipWith ($) (treeZipWith f t1 t2) t3
 
-layout t = treeZipWith3 (\x y z -> (x,(y,z))) t (inorder t) (depth t)
+layout64 t = treeZipWith3 (\x y z -> (x,(y,z))) t (inorder t) (depth t)
+
+-- from http://www.haskell.org/haskellwiki/99_questions/Solutions/64
+layout64' t = fst (layoutAux 1 1 t)
+  where layoutAux x y Empty = (Empty, x)
+        layoutAux x y (Branch a l r) = (Branch (a, (x',y)) l' r', x'')
+          where (l', x')  = layoutAux x (y+1) l
+                (r', x'') = layoutAux (x'+1) (y+1) r

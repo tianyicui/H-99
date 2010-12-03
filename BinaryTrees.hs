@@ -104,3 +104,19 @@ internals (Branch x left  right) = x : (internals left ++ internals right)
 atLevel Empty                 _ = []
 atLevel (Branch a left right) 1 = [a]
 atLevel (Branch _ left right) n = left `atLevel` (n-1) ++ right `atLevel` (n-1)
+
+-- think as make a binary heap using an array
+completeBinaryTree n = go 1 where
+    go m = if m > n
+           then Empty
+           else Branch 'x' (go $ m*2) (go $ m*2+1)
+
+treeNodes Empty = 0
+treeNodes (Branch _ left right) = 1 + treeNodes left + treeNodes right
+
+treeEqual Empty Empty = True
+treeEqual (Branch _ l1 r1) (Branch _ l2 r2) =
+    (treeEqual l1 l2) && (treeEqual r1 r2)
+treeEqual _ _ = False
+
+isCompleteBinaryTree t = treeEqual t $ completeBinaryTree $ treeNodes t

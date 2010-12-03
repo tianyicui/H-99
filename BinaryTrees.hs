@@ -120,3 +120,28 @@ treeEqual (Branch _ l1 r1) (Branch _ l2 r2) =
 treeEqual _ _ = False
 
 isCompleteBinaryTree t = treeEqual t $ completeBinaryTree $ treeNodes t
+
+instance Functor Tree where
+    fmap f Empty = Empty
+    fmap f (Branch x l r) = Branch (f x) (fmap f l) (fmap f r)
+
+inorder t = go 1 t where
+    go _ Empty = Empty
+    go n (Branch _ l r) =
+        let ln = treeNodes l
+        in Branch (n+ln) (go n l) (go (n+ln+1) r)
+
+depth t = go 1 t where
+    go _ Empty = Empty
+    go n (Branch _ l r) =
+        Branch n (go (n+1) l) (go (n+1) r)
+
+treeZipWith _ Empty _ = Empty
+treeZipWith _ _ Empty = Empty
+treeZipWith f (Branch x1 l1 r1) (Branch x2 l2 r2) =
+    Branch (f x1 x2) (treeZipWith f l1 l2) (treeZipWith f r1 r2)
+
+treeZipWith3 f t1 t2 t3 =
+    treeZipWith ($) (treeZipWith f t1 t2) t3
+
+layout t = treeZipWith3 (\x y z -> (x,(y,z))) t (inorder t) (depth t)
